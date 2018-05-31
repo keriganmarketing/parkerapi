@@ -16,7 +16,13 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
             $table->string('company_id');
+            $table->string('unit_id');
             $table->unsignedInteger('rns_unit_id');
+            $table->string('name');
+            $table->string('description');
+            $table->string('base_url');
+            $table->string('url');
+            $table->unsignedInteger('sort_order');
             $table->timestamps();
         });
     }

@@ -10,7 +10,7 @@ class RNS
     protected $clientId;
     protected $clientSecret;
 
-    const TOKEN_URI = 'Account/AccessToken';
+    const TOKEN_URI = 'Account/AccessToken?clientid=';
     const UNIT_LIST_URI = 'Units';
 
     public function __construct()
@@ -40,7 +40,7 @@ class RNS
 
     public function getUnitList()
     {
-        $units = $this->get(self::UNIT_LIST_URI . $this->clientId);
+        $units = $this->get(self::UNIT_LIST_URI);
 
         foreach ($units as $unit) {
             Unit::updateOrCreate(['rns_id' => $unit->UnitId], [
