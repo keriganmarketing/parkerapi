@@ -15,7 +15,7 @@ class Unit extends Model
         return $this->hasMany(Amenity::class);
     }
 
-    public function availabilities()
+    public function availability()
     {
         return $this->hasMany(Availability::class);
     }

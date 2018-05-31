@@ -7,6 +7,8 @@ $factory->define(App\Unit::class, function (Faker $faker) {
         'company_id' => 1,
         'rns_id' => $faker->numberBetween(1, 999),
         'number' => 'CC 117B',
-        'name' => $faker->company
+        'name' => $faker->company,
+        'location' => 'Beachfront',
+        'type' => 'Vacation Rental'
     ];
 });
