@@ -43,13 +43,24 @@ class RNS
         $units = $this->get(self::UNIT_LIST_URI);
 
         foreach ($units as $unit) {
-            Unit::updateOrCreate(['rns_id' => $unit->UnitId], [
+            $newUnit = Unit::updateOrCreate(['rns_id' => $unit->UnitId], [
                 'company_id' => $unit->CompanyId,
                 'rns_id'     => $unit->UnitId,
                 'number'     => $unit->UnitNo,
                 'name'       => $unit->UnitName
             ]);
+
+            $this->addSearchCriteria($newUnit);
         }
+    }
+
+    private function addSearchCriteria($newUnit)
+    {
+            $searchCriteria    = $this->locationAndTypeForUnit($newUnit->rns_id);
+
+            $newUnit->type     = $searchCriteria[1]->Name;
+            $newUnit->location = $searchCriteria[0]->Name;
+            $newUnit->save();
     }
 
     public function amenitiesForUnit($rnsId)
@@ -65,6 +76,11 @@ class RNS
     public function imagesForUnit($rnsId)
     {
         return $this->get("Units/{$rnsId}/Images?clientid={$this->clientId}");
+    }
+
+    public function locationAndTypeForUnit($rnsId)
+    {
+        return $this->get("Units/{$rnsId}/SearchCriteria?clientid={$this->clientId}");
     }
 
     private function get($uri)

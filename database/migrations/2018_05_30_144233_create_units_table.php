@@ -19,6 +19,8 @@ class CreateUnitsTable extends Migration
             $table->unsignedInteger('rns_id');
             $table->string('number');
             $table->string('name');
+            $table->string('location')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
