@@ -58,8 +58,8 @@ class RNS
     {
             $searchCriteria    = $this->locationAndTypeForUnit($newUnit->rns_id);
 
-            $newUnit->type     = $searchCriteria[1]->Name;
-            $newUnit->location = $searchCriteria[0]->Name;
+            $newUnit->type     = $searchCriteria[1]->Name ?? null;
+            $newUnit->location = $searchCriteria[0]->Name ?? null;
             $newUnit->save();
     }
 
