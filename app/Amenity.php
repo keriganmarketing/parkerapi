@@ -21,20 +21,23 @@ class Amenity extends Model
         foreach ($units as $unit) {
             $amenities = $rns->amenitiesForUnit($unit->rns_id);
             self::attachToUnit($unit, $amenities);
+            usleep(10000);
         }
     }
 
     public static function attachToUnit($unit, $amenities)
     {
-        foreach ($amenities as $amenity) {
-            Amenity::create([
-                'unit_id' => $unit->id,
-                'rns_unit_id' => $amenity->UnitId,
-                'rns_id' => $amenity->AmenityId,
-                'name' => $amenity->Name,
-                'description' => $amenity->Description,
-                'sort_order' => $amenity->SortOrder
-            ]);
+        if (is_array($amenities)) {
+            foreach ($amenities as $amenity) {
+                Amenity::create([
+                    'unit_id'     => $unit->id,
+                    'rns_unit_id' => $amenity->UnitId,
+                    'rns_id'      => $amenity->AmenityId ?? 0,
+                    'name'        => $amenity->Name ?? 'No name provided',
+                    'description' => $amenity->Description ?? 'No Description provided',
+                    'sort_order'  => $amenity->SortOrder ?? 0
+                ]);
+            }
         }
     }
 }

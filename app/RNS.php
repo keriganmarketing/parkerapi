@@ -33,9 +33,11 @@ class RNS
         ]);
         $newToken = json_decode($results->getBody())->access_token;
 
-        Token::updateOrCreate(['id' => $tokenId], [
+        $token = Token::updateOrCreate(['id' => $tokenId], [
             'value' => $newToken
         ]);
+
+        return $token;
     }
 
     public function getUnitList()
@@ -49,9 +51,23 @@ class RNS
                 'number'     => $unit->UnitNo,
                 'name'       => $unit->UnitName
             ]);
-
+            // Our code is too fast for their API
+                usleep(250000);
+            //
             $this->addSearchCriteria($newUnit);
         }
+    }
+
+    public function rebuild()
+    {
+        $token = $this->getAccessToken();
+
+        $units = $this->getUnitList();
+        Amenity::forAllUnits();
+        Availability::forAllUnits();
+        Image::forAllUnits();
+
+        echo 'Check it';
     }
 
     private function addSearchCriteria($newUnit)

@@ -24,7 +24,6 @@ class UnitSearchController extends Controller
                     })->when($location, function ($query) use ($location) {
                         return $query->where('location', $location);
                     })->get();
-        dd($unitList);
     }
 
     /**
