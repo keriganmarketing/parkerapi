@@ -63,9 +63,9 @@ class RNS
         $token = $this->getAccessToken();
 
         $units = $this->getUnitList();
+        Image::forAllUnits();
         Amenity::forAllUnits();
         Availability::forAllUnits();
-        Image::forAllUnits();
 
         echo 'Check it';
     }
@@ -73,7 +73,6 @@ class RNS
     private function addSearchCriteria($newUnit)
     {
             $searchCriteria    = $this->locationAndTypeForUnit($newUnit->rns_id);
-
             $newUnit->type     = $searchCriteria[1]->Name ?? null;
             $newUnit->location = $searchCriteria[0]->Name ?? null;
             $newUnit->save();
