@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Amenity;
 use Illuminate\Http\Request;
 
-class AmenityController extends Controller
+class AmenitiesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class AmenityController extends Controller
      */
     public function index()
     {
-        //
+        return Amenity::all();
     }
 
     /**
