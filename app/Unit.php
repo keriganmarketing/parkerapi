@@ -26,6 +26,11 @@ class Unit extends Model
         return $this->hasMany(Image::class);
     }
 
+    public function details()
+    {
+        return $this->hasMany(Detail::class);
+    }
+
     public static function searchFor(Request $request)
     {
         $name     = $request->name ?? null;

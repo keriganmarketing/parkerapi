@@ -2,6 +2,7 @@
 namespace App;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class RNS
 {
@@ -52,7 +53,7 @@ class RNS
                 'name'       => $unit->UnitName
             ]);
             // Our code is too fast for their API
-                usleep(250000);
+                usleep(150000);
             //
             $this->addSearchCriteria($newUnit);
         }
@@ -96,6 +97,15 @@ class RNS
     public function locationAndTypeForUnit($rnsId)
     {
         return $this->get("Units/{$rnsId}/SearchCriteria?clientid={$this->clientId}");
+    }
+
+    public function detailsForUnit($rnsId)
+    {
+        try {
+            return $this->get("Units/{$rnsId}/PropertyDetail?clientid={$this->clientId}");
+        } catch (ClientException $e) {
+            return 'Sausage';
+        }
     }
 
     private function get($uri)
