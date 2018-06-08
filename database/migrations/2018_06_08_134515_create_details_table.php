@@ -15,9 +15,9 @@ class CreateDetailsTable extends Migration
     {
         Schema::create('details', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('unit_id');
-            $table->unsignedInteger('rns_unit_id');
-            $table->unsignedInteger('location_id');
+            $table->unsignedInteger('unit_id')->nullable();
+            $table->unsignedInteger('rns_unit_id')->nullable();
+            $table->unsignedInteger('location_id')->nullable();
             $table->string('company_id')->nullable();
             $table->string('prop_name')->nullable();
             $table->string('prop_number')->nullable();

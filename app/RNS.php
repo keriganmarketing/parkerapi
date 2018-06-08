@@ -62,7 +62,6 @@ class RNS
     public function rebuild()
     {
         $token = $this->getAccessToken();
-
         $units = $this->getUnitList();
         Image::forAllUnits();
         Amenity::forAllUnits();
@@ -103,6 +102,11 @@ class RNS
     public function getImageChanges($lastUpdate)
     {
         return $this->get("Units/Images/Changes?LastUpdateDate={$lastUpdate}&clientId={$this->clientId}");
+    }
+
+    public function getAmenityChanges($lastUpdate)
+    {
+        return $this->get("Units/Amenities/Changes?LastUpdateDate={$lastUpdate}&clientId={$this->clientId}");
     }
 
     public function detailsForUnit($rnsId)

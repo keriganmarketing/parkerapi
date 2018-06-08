@@ -18,11 +18,15 @@ class Detail extends Model
     {
         $units = Unit::all();
         $rns = new RNS;
+        $counter = 0;
 
         foreach ($units as $unit) {
             $detail = $rns->detailsForUnit($unit->rns_id);
             if ($detail != 'Sausage') {
                 self::attachToUnit($unit, $detail);
+            } else {
+                echo $detail . ' #'. $counter .  PHP_EOL;
+                $counter++;
             }
             usleep(10000);
         }

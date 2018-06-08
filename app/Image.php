@@ -38,28 +38,37 @@ class Image extends Model
 
     public static function changes()
     {
-        $lastUpdate = Carbon::parse(Image::all()->pluck('updated_at')->max())->format('m/d/Y g:i:s A');
-        $rns = new RNS;
-        $changes = $rns->getImageChanges($lastUpdate);
-        $counter = 0;
+        $rns        = new RNS;
+        $lastUpdate = self::getLastUpdatedImage();
+        $changes    = $rns->getImageChanges($lastUpdate) ?? [];
+        $counter    = 0;
 
         foreach ($changes as $changed) {
-            $image = Image::where('rns_unit_id', $changed->UnitId)->first();
-
+            $image = self::locateChangedImage($changed);
             $image->update([
-                'company_id' => $changed->CompanyId,
+                'company_id'  => $changed->CompanyId,
                 'rns_unit_id' => $changed->UnitId,
-                'name' => $changed->ImageName,
+                'name'        => $changed->ImageName,
                 'description' => $changed->ImageDesc,
-                'base_url' => $changed->ImageSource,
-                'sort_order' => $changed->ImageSortNo,
-                'url' => $changed->ImageSource . $changed->ImageName
+                'base_url'    => $changed->ImageSource,
+                'sort_order'  => $changed->ImageSortNo,
+                'url'         => $changed->ImageSource . $changed->ImageName
             ]);
 
             $counter++;
         }
 
         echo "Changed {$counter} images";
+    }
+
+    public static function getLastUpdatedImage()
+    {
+        return Carbon::parse(Image::all()->pluck('updated_at')->max())->format('m/d/Y g:i:s A');
+    }
+
+    public static function locateChangedImage($changed)
+    {
+        return Image::where('name', $changed->ImageName)->where('rns_unit_id', $changed->UnitId)->first();
     }
 
     public function unit()

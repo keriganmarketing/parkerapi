@@ -7,8 +7,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Image;
 
-class UpdateDatabase implements ShouldQueue
+class UpdateImages implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -29,6 +30,6 @@ class UpdateDatabase implements ShouldQueue
      */
     public function handle()
     {
-        //
+        Image::changes();
     }
 }
