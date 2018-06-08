@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
@@ -33,6 +34,32 @@ class Image extends Model
                 'sort_order'  => $image->ImageSortNo
             ]);
         }
+    }
+
+    public static function changes()
+    {
+        $lastUpdate = Carbon::parse(Image::all()->pluck('updated_at')->max())->format('m/d/Y g:i:s A');
+        $rns = new RNS;
+        $changes = $rns->getImageChanges($lastUpdate);
+        $counter = 0;
+
+        foreach ($changes as $changed) {
+            $image = Image::where('rns_unit_id', $changed->UnitId)->first();
+
+            $image->update([
+                'company_id' => $changed->CompanyId,
+                'rns_unit_id' => $changed->UnitId,
+                'name' => $changed->ImageName,
+                'description' => $changed->ImageDesc,
+                'base_url' => $changed->ImageSource,
+                'sort_order' => $changed->ImageSortNo,
+                'url' => $changed->ImageSource . $changed->ImageName
+            ]);
+
+            $counter++;
+        }
+
+        echo "Changed {$counter} images";
     }
 
     public function unit()

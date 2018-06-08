@@ -67,6 +67,7 @@ class RNS
         Image::forAllUnits();
         Amenity::forAllUnits();
         Availability::forAllUnits();
+        Detail::forAllUnits();
 
         echo 'Check it';
     }
@@ -97,6 +98,11 @@ class RNS
     public function locationAndTypeForUnit($rnsId)
     {
         return $this->get("Units/{$rnsId}/SearchCriteria?clientid={$this->clientId}");
+    }
+
+    public function getImageChanges($lastUpdate)
+    {
+        return $this->get("Units/Images/Changes?LastUpdateDate={$lastUpdate}&clientId={$this->clientId}");
     }
 
     public function detailsForUnit($rnsId)
