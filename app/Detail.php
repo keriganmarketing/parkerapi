@@ -16,8 +16,8 @@ class Detail extends Model
 
     public static function forAllUnits()
     {
-        $units = Unit::all();
-        $rns = new RNS;
+        $units   = Unit::all();
+        $rns     = new RNS;
         $counter = 0;
 
         foreach ($units as $unit) {
@@ -28,7 +28,7 @@ class Detail extends Model
                 echo $detail . ' #'. $counter .  PHP_EOL;
                 $counter++;
             }
-            usleep(10000);
+            usleep(20000);
         }
     }
 

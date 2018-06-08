@@ -114,6 +114,7 @@ class RNS
         try {
             return $this->get("Units/{$rnsId}/PropertyDetail?clientid={$this->clientId}");
         } catch (ClientException $e) {
+            echo $e->getMessage() . PHP_EOL;
             return 'Sausage';
         }
     }
