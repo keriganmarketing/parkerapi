@@ -19,7 +19,7 @@ class AvailabilityController extends Controller
 
         foreach ($availabilities as $availability) {
             $availability->start = Carbon::parse($availability->arrival_date)->format('Y/n/j');
-            $availability->end = Carbon::parse($availability->depart_date)->format('Y/n/j');
+            $availability->end = Carbon::parse($availability->departure_date)->format('Y/n/j');
         }
 
         return $availabilities;
