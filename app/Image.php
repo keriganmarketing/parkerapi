@@ -17,6 +17,7 @@ class Image extends Model
         foreach ($units as $unit) {
             $images = $rns->imagesForUnit($unit->rns_id);
             self::attachToUnit($unit, $images);
+            usleep(250000);
         }
     }
 

@@ -53,7 +53,7 @@ class RNS
                 'name'       => $unit->UnitName
             ]);
             // Our code is too fast for their API
-                usleep(150000);
+                usleep(200000);
             //
             $this->addSearchCriteria($newUnit);
         }
