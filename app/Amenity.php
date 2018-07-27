@@ -22,7 +22,7 @@ class Amenity extends Model
         foreach ($units as $unit) {
             $amenities = $rns->amenitiesForUnit($unit->rns_id);
             self::attachToUnit($unit, $amenities);
-            usleep(20000);
+            usleep(200000);
         }
     }
 
