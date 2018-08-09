@@ -14,7 +14,7 @@ class UnitsController extends Controller
      */
     public function index()
     {
-        return Unit::with('amenities', 'availability', 'images')->get();
+        return Unit::with('amenities', 'availability', 'images', 'details')->get();
     }
 
 
