@@ -31,6 +31,11 @@ class Unit extends Model
         return $this->hasMany(Detail::class);
     }
 
+    public function rates()
+    {
+        return $this->hasMany(Rate::class);
+    }
+
     public static function searchFor(Request $request)
     {
         $name     = $request->name ?? null;

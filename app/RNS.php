@@ -109,6 +109,11 @@ class RNS
         return $this->get("Units/Amenities/Changes?LastUpdateDate={$lastUpdate}&clientId={$this->clientId}");
     }
 
+    public function ratesForUnit($rnsId)
+    {
+        return $this->get("Units/{$rnsId}/RateSummary?clientid={$this->clientId}");
+    }
+
     public function detailsForUnit($rnsId)
     {
         try {
