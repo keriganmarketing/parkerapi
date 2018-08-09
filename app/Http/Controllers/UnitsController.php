@@ -26,6 +26,6 @@ class UnitsController extends Controller
      */
     public function show(Unit $unit)
     {
-        return $unit->with('images', 'availability', 'amenities')->find($unit->id);
+        return $unit->with('images', 'availability', 'amenities', 'details')->find($unit->id);
     }
 }
