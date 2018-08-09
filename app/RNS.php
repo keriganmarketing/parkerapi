@@ -67,6 +67,7 @@ class RNS
         Amenity::forAllUnits();
         Availability::forAllUnits();
         Detail::forAllUnits();
+        Rate::forAllUnits();
 
         echo 'Check it';
     }
