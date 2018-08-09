@@ -14,7 +14,7 @@ class UnitsController extends Controller
      */
     public function index()
     {
-        return Unit::with('amenities', 'availability', 'images', 'details')->get();
+        return Unit::with('amenities', 'availability', 'images', 'details', 'rates')->get();
     }
 
 
@@ -26,6 +26,6 @@ class UnitsController extends Controller
      */
     public function show(Unit $unit)
     {
-        return $unit->with('images', 'availability', 'amenities', 'details')->find($unit->id);
+        return $unit->with('images', 'availability', 'amenities', 'details', 'rates')->find($unit->id);
     }
 }

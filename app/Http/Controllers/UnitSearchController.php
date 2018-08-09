@@ -18,7 +18,7 @@ class UnitSearchController extends Controller
         $location = $request->location ?? null;
         $type     = $request->type ?? null;
 
-        return Unit::with('amenities', 'images', 'availability')
+        return Unit::with('amenities', 'images', 'availability', 'details', 'rates')
                     ->when($type, function ($query) use ($type) {
                         return $query->where('type', $type);
                     })->when($location, function ($query) use ($location) {
