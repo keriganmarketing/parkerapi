@@ -43,6 +43,5 @@ class Unit extends Model
                     })->when($location, function ($query) use ($location) {
                         return $query->where('location', $location);
                     })->get();
-
     }
 }
