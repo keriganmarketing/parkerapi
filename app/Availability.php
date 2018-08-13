@@ -28,14 +28,17 @@ class Availability extends Model
     public static function attachToUnit($unit, $availability)
     {
         foreach ($availability as $a) {
-            Availability::create([
+            Availability::updateOrCreate(
+                ['rns_unit_id' => $a->UnitId],
+                [
                 'unit_id' => $unit->id,
                 'company_id' => $a->CompanyId,
                 'rns_unit_id' => $a->UnitId,
                 'rns_id' => $a->AvailId,
                 'arrival_date' => Carbon::parse($a->ArriveDate)->toDateTimeString(),
                 'departure_date' => Carbon::parse($a->DepartDate)->toDateTimeString(),
-            ]);
+            ]
+            );
         }
     }
 }

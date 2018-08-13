@@ -34,7 +34,9 @@ class Detail extends Model
 
     public static function attachToUnit($unit, $detail)
     {
-        Detail::create([
+        Detail::updateOrCreate(
+            [ 'rns_unit_id' => $detail->UnitId ],
+            [
             'unit_id'              => $unit->id,
             'rns_unit_id'          => $detail->UnitId ?? null,
             'location_id'          => $detail->LocationId ?? null,
@@ -57,6 +59,7 @@ class Detail extends Model
             'reservation_group_id' => $detail->ReservationGroupId ?? null,
             'finance_group_id'     => $detail->FinanceGroupId ?? null,
             'persons_per_rental'   => $detail->PersonsPerRental ?? null,
-        ]);
+        ]
+        );
     }
 }

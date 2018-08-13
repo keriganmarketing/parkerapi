@@ -26,7 +26,9 @@ class Image extends Model
     public static function attachToUnit($unit, $images)
     {
         foreach ($images as $image) {
-            Image::create([
+            Image::updateOrCreate(
+                ['rns_unit_id' => $image->UnitId ],
+                [
                 'company_id'  => $image->CompanyId,
                 'unit_id'     => $unit->id,
                 'rns_unit_id' => $image->UnitId,
@@ -35,7 +37,8 @@ class Image extends Model
                 'base_url'    => $image->ImageSource,
                 'url'         => $image->ImageSource . $image->ImageName,
                 'sort_order'  => $image->ImageSortNo
-            ]);
+            ]
+            );
         }
     }
 

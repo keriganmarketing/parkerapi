@@ -2,10 +2,11 @@
 
 namespace App\Console;
 
+use App\Jobs\Update;
+use App\Jobs\UpdateImages;
+use App\Jobs\GetAccessToken;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Jobs\GetAccessToken;
-use App\Jobs\UpdateImages;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,8 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new GetAccessToken)->everyThirtyMinutes();
-        $schedule->job(new UpdateImages)->hourly();
+        $schedule->job(new Update)->hourly();
     }
 
     /**
