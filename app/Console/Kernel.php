@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new Update)->hourly();
+        $schedule->job(new Update())->hourly();
     }
 
     /**
