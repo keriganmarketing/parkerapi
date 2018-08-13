@@ -78,6 +78,8 @@ return [
                 'balance' => 'simple',
                 'processes' => 1,
                 'tries' => 3,
+                'timeout' => 900,
+                'retry_after' => 1200
             ],
         ],
 
