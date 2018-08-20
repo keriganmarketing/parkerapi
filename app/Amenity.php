@@ -31,15 +31,18 @@ class Amenity extends Model
         if (is_array($amenities)) {
             foreach ($amenities as $amenity) {
                 Amenity::updateOrCreate(
-                    ['rns_unit_id' => $amenity->UnitId],
                     [
-                    'unit_id'     => $unit->id,
-                    'rns_unit_id' => $amenity->UnitId,
-                    'rns_id'      => $amenity->AmenityId ?? 0,
-                    'name'        => $amenity->Name ?? 'No name provided',
-                    'description' => $amenity->Description ?? 'No Description provided',
-                    'sort_order'  => $amenity->SortOrder ?? 0
-                ]
+                        'rns_unit_id' => $amenity->UnitId,
+                        'rns_id'      => $amenity->AmenityId
+                    ],
+                    [
+                        'unit_id'     => $unit->id,
+                        'rns_unit_id' => $amenity->UnitId,
+                        'rns_id'      => $amenity->AmenityId ?? 0,
+                        'name'        => $amenity->Name ?? 'No name provided',
+                        'description' => $amenity->Description ?? 'No Description provided',
+                        'sort_order'  => $amenity->SortOrder ?? 0
+                    ]
                 );
             }
         }

@@ -37,18 +37,24 @@ class Rate extends Model
     private static function createRate($unit, $rate)
     {
         foreach ($rate->RatesByUnit as $r) {
-            Rate::create([
-                'unit_id'          => $unit->id,
-                'rns_unit_id'      => $r->UnitId,
-                'start_date'       => Carbon::parse($r->StartDate)->toDateTimeString(),
-                'end_date'         => Carbon::parse($r->EndDate)->toDateTimeString(),
-                'daily'            => $r->DailyRate,
-                'weekly'           => $r->WeeklyRate,
-                'monthly'          => $r->MonthlyRate,
-                'minimun_nights'   => $r->MinNoNights,
-                'blackout'         => $r->Blackout ?? 0,
-                'ignore_start_day' => $r->IgnoreStartDay ?? 0,
-            ]);
+            Rate::updateOrCreate(
+                [
+                    'rns_unit_id' => $r->UnitId,
+                    'start_date' => Carbon::parse($r->StartDate)->toDateTimeString()
+                ],
+                [
+                    'unit_id'          => $unit->id,
+                    'rns_unit_id'      => $r->UnitId,
+                    'start_date'       => Carbon::parse($r->StartDate)->toDateTimeString(),
+                    'end_date'         => Carbon::parse($r->EndDate)->toDateTimeString(),
+                    'daily'            => $r->DailyRate,
+                    'weekly'           => $r->WeeklyRate,
+                    'monthly'          => $r->MonthlyRate,
+                    'minimun_nights'   => $r->MinNoNights,
+                    'blackout'         => $r->Blackout ?? 0,
+                    'ignore_start_day' => $r->IgnoreStartDay ?? 0,
+                ]
+            );
         }
     }
 }

@@ -8,3 +8,4 @@ Route::get('/availability', 'AvailabilityController@index')->name('availability.
 Route::get('/amenities', 'AmenitiesController@index')->name('amenities.index');
 
 Route::get('/search', 'UnitSearchController@index')->name('units.search');
+Route::get('/matches', 'MatchingResultsController@index')->name('matches');

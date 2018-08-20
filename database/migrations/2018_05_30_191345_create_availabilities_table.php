@@ -15,12 +15,12 @@ class CreateAvailabilitiesTable extends Migration
     {
         Schema::create('availabilities', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('unit_id');
+            $table->unsignedInteger('unit_id')->index();
             $table->unsignedInteger('company_id');
-            $table->unsignedInteger('rns_unit_id');
-            $table->string('rns_id');
-            $table->dateTime('arrival_date');
-            $table->dateTime('departure_date');
+            $table->unsignedInteger('rns_unit_id')->index();
+            $table->string('rns_id')->index();
+            $table->dateTime('arrival_date')->index();
+            $table->dateTime('departure_date')->index();
             $table->timestamps();
         });
     }

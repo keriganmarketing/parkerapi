@@ -27,17 +27,20 @@ class Image extends Model
     {
         foreach ($images as $image) {
             Image::updateOrCreate(
-                ['rns_unit_id' => $image->UnitId ],
                 [
-                'company_id'  => $image->CompanyId,
-                'unit_id'     => $unit->id,
-                'rns_unit_id' => $image->UnitId,
-                'name'        => $image->ImageName,
-                'description' => $image->ImageDesc,
-                'base_url'    => $image->ImageSource,
-                'url'         => $image->ImageSource . $image->ImageName,
-                'sort_order'  => $image->ImageSortNo
-            ]
+                    'rns_unit_id' => $image->UnitId,
+                    'name' => $image->ImageName
+                ],
+                [
+                    'company_id'  => $image->CompanyId,
+                    'unit_id'     => $unit->id,
+                    'rns_unit_id' => $image->UnitId,
+                    'name'        => $image->ImageName,
+                    'description' => $image->ImageDesc,
+                    'base_url'    => $image->ImageSource,
+                    'url'         => $image->ImageSource . $image->ImageName,
+                    'sort_order'  => $image->ImageSortNo
+                ]
             );
         }
     }
