@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UnitSearchController extends Controller
@@ -14,13 +15,13 @@ class UnitSearchController extends Controller
      */
     public function index(Request $request)
     {
-        $name  = $request->name ?? null;
-        $checkIn = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : Carbon::now();
+        $name     = $request->name ?? null;
+        $checkIn  = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : Carbon::now();
         $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null; 
         $location = $request->location ?? null;
-        $type = $request->type ?? null;
+        $type     = $request->type ?? null;
 
-        return Unit::with('availability', 'images', 'details', 'rates')
+        $units = Unit::with('availability', 'images', 'details', 'rates')
                ->when($name, function ($query) use ($name) {
                     return $query->where('name', 'like', $name);
                })
@@ -40,7 +41,11 @@ class UnitSearchController extends Controller
                ->when($type, function ($query) use ($type){
                    return $query->where('type', $type);
                })
-               ->get();
+               ->paginate(36);
+
+        $units->appends($request->all())->links();
+
+        return $units;
     }
 
     /**
