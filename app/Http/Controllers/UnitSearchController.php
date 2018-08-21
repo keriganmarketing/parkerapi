@@ -14,16 +14,33 @@ class UnitSearchController extends Controller
      */
     public function index(Request $request)
     {
-        $name     = $request->name ?? null;
+        $name  = $request->name ?? null;
+        $checkIn = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : Carbon::now();
+        $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null; 
         $location = $request->location ?? null;
-        $type     = $request->type ?? null;
+        $type = $request->type ?? null;
 
-        return Unit::with('amenities', 'images', 'availability', 'details', 'rates')
-                    ->when($type, function ($query) use ($type) {
-                        return $query->where('type', $type);
-                    })->when($location, function ($query) use ($location) {
-                        return $query->where('location', $location);
-                    })->get();
+        return Unit::with('availability', 'images', 'details', 'rates')
+               ->when($name, function ($query) use ($name) {
+                    return $query->where('name', 'like', $name);
+               })
+               ->when($checkIn, function ($query) use ($checkIn) {
+                    return $query->whereHas('availability', function ($query) use ($checkIn){
+                        return $query->where('arrival_date', '>=', $checkIn);
+                    });
+               })
+               ->when($checkOut, function ($query) use ($checkOut) {
+                    return $query->whereHas('availability', function ($query) use ($checkOut){
+                        return $query->where('arrival_date', '<=', $checkOut);
+                    });
+               })
+               ->when($location, function ($query) use ($location){
+                   return $query->where('location', $location);
+               })
+               ->when($type, function ($query) use ($type){
+                   return $query->where('type', $type);
+               })
+               ->get();
     }
 
     /**
