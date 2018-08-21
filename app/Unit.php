@@ -11,6 +11,14 @@ class Unit extends Model
         'company_id', 'rns_id', 'number', 'name'
     ];
 
+    const AMENITIES = [
+        'pool' => 45,
+        'internet' => 22,
+        'screened_in_porch' => 46,
+        'pet_friendly' => 50,
+        'elevator' => 17
+    ];
+
     public function amenities()
     {
         return $this->hasMany(Amenity::class);

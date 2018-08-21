@@ -16,7 +16,7 @@ class UnitSearchController extends Controller
     public function index(Request $request)
     {
         $name     = $request->name ?? null;
-        $checkIn  = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : Carbon::now();
+        $checkIn  = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : null;
         $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null; 
         $location = $request->location ?? null;
         $type     = $request->type ?? null;
