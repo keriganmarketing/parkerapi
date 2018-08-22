@@ -22,7 +22,6 @@ class UnitSearchController extends Controller
         $type     = $request->type ?? null;
         $dock     = $request->dock == 'true' ?? null;
         $pool     = $request->pool == 'true' ?? null;
-        dd($pool);
         $canal    = $request->canal == 'true' ?? null;
         $internet = $request->internet == 'true' ?? null;
         $linens   = $request->linens == 'true' ?? null;
