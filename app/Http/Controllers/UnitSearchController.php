@@ -20,12 +20,12 @@ class UnitSearchController extends Controller
         $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null; 
         $location = $request->location ?? null;
         $type     = $request->type ?? null;
-        $dock     = $request->dock == 'Yes' ?? null;
-        $pool     = $request->pool == 'Yes' ?? null;
-        $canal    = $request->canal == 'Yes' ?? null;
-        $internet = $request->internet == 'Yes' ?? null;
-        $linens   = $request->linens == 'Yes' ?? null;
-        $pets     = $request->pets == 'Yes' ?? null;
+        $dock     = $request->dock ?? null;
+        $pool     = $request->pool ?? null;
+        $canal    = $request->canal ?? null;
+        $internet = $request->internet ?? null;
+        $linens   = $request->linens ?? null;
+        $pets     = $request->pets ?? null;
 
         $units = Unit::with('details', 'rates', 'amenities')
                     ->with(['images' => function ($query) {
