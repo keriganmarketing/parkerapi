@@ -20,8 +20,14 @@ class UnitSearchController extends Controller
         $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null; 
         $location = $request->location ?? null;
         $type     = $request->type ?? null;
+        $dock     = $request->dock == 'Yes' ?? null;
+        $pool     = $request->pool == 'Yes' ?? null;
+        $canal    = $request->canal == 'Yes' ?? null;
+        $internet = $request->internet == 'Yes' ?? null;
+        $linens   = $request->linens == 'Yes' ?? null;
+        $pets     = $request->pets == 'Yes' ?? null;
 
-        $units = Unit::with('details', 'rates')
+        $units = Unit::with('details', 'rates', 'amenities')
                     ->with(['images' => function ($query) {
                         return $query->where('sort_order', 1);
                     }])
@@ -43,6 +49,21 @@ class UnitSearchController extends Controller
                    })
                    ->when($type, function ($query) use ($type){
                        return $query->where('type', $type);
+                   })
+                   ->when($pool, function ($query) {
+                       return $query->whereHas('amenities', function ($query) {
+                           return $query->where('rns_id', 45)->where('description', '!=', 'No');
+                       });
+                   })
+                   ->when($internet, function ($query) {
+                       return $query->whereHas('amenities', function ($query) {
+                           return $query->where('rns_id', 22)->where('description', '!=', 'No');
+                       });
+                   })
+                   ->when($pets, function ($query) {
+                       return $query->whereHas('amenities', function ($query) {
+                           return $query->where('rns_id', 50)->where('description', '!=', 'No');
+                       });
                    })
                    ->paginate(36);
 
