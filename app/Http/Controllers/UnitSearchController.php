@@ -60,6 +60,11 @@ class UnitSearchController extends Controller
                            return $query->where('rns_id', 22)->where('description', '!=', 'No');
                        });
                    })
+                   ->when($linens, function ($query) {
+                       return $query->whereHas('amenities', function ($query) {
+                           return $query->where('rns_id', 14)->where('description', '!=', 'No');
+                       });
+                   })
                    ->when($pets, function ($query) {
                        return $query->whereHas('amenities', function ($query) {
                            return $query->where('rns_id', 50)->where('description', '!=', 'No');
