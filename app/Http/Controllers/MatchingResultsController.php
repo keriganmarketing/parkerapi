@@ -15,29 +15,36 @@ class MatchingResultsController extends Controller
      */
     public function index(Request $request)
     {
-        $checkIn = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : Carbon::now();
+        $checkIn  = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : null;
         $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null; 
         $location = $request->location ?? null;
-        $type = $request->type ?? null;
+        $type     = $request->type ?? null;
 
-        return Unit::with('availability')
-               ->when($checkIn, function ($query) use ($checkIn) {
-                    return $query->whereHas('availability', function ($query) use ($checkIn){
-                        return $query->where('arrival_date', '>=', $checkIn);
-                    });
-               })
-               ->when($checkOut, function ($query) use ($checkOut) {
-                    return $query->whereHas('availability', function ($query) use ($checkOut){
-                        return $query->where('arrival_date', '<=', $checkOut);
-                    });
-               })
-               ->when($location, function ($query) use ($location){
-                   return $query->where('location', $location);
-               })
-               ->when($type, function ($query) use ($type){
-                   return $query->where('type', $type);
-               })
-               ->count();
+        $units = Unit::with('searchCriteria', 'details', 'rates', 'amenities')
+                    ->with(['images' => function ($query) {
+                        return $query->where('sort_order', 1);
+                    }])
+                   ->when($checkIn, function ($query) use ($checkIn) {
+                        return $query->whereDoesntHave('availability', function ($query) use ($checkIn){
+                            return $query->whereDate('arrival_date', '>=', $checkIn)->orWhereDate('departure_date', '<=', $checkIn);
+                        });
+                   })
+                   ->when($checkOut, function ($query) use ($checkOut) {
+                        return $query->whereDoesntHave('availability', function ($query) use ($checkOut){
+                            return $query->whereDate('arrival_date', '>=', $checkOut)->orWhereDate('departure_date', '<=', $checkOut);
+                        });
+                   })
+                   ->when($location, function ($query) use ($location) {
+                        return $query->whereHas('searchCriteria', function ($query) use ($location){
+                            return $query->where('name', 'like', $location);
+                        });
+                   })
+                   ->when($type, function ($query) use ($type) {
+                        return $query->whereHas('searchCriteria', function ($query) use ($type){
+                            return $query->where('name', 'like', $type);
+                        });
+                   })
+                   ->count();
     }
 
     /**
