@@ -85,6 +85,6 @@ class UnitSearchController extends Controller
      */
     public function show($id)
     {
-        return Unit::with('amenities', 'images', 'availability', 'details', 'rates')->find(id);
+        return Unit::with('amenities', 'images', 'availability', 'details', 'rates')->where('rns_id', $id)->first();
     }
 }

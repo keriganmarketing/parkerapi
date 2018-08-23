@@ -44,6 +44,11 @@ class Unit extends Model
         return $this->hasMany(Rate::class);
     }
 
+    public function searchCriteria()
+    {
+        return $this->hasMany(SearchCriteria::class);
+    }
+
     public static function searchFor(Request $request)
     {
         $name     = $request->name ?? null;
