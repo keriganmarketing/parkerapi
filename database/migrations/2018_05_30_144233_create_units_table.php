@@ -18,9 +18,7 @@ class CreateUnitsTable extends Migration
             $table->unsignedInteger('company_id');
             $table->unsignedInteger('rns_id')->index();
             $table->string('number');
-            $table->string('name');
-            $table->string('location')->nullable();
-            $table->string('type')->nullable();
+            $table->string('name')->index();
             $table->timestamps();
         });
     }

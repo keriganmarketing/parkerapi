@@ -27,7 +27,7 @@ class UnitSearchController extends Controller
         $linens   = $request->linens == 'true' ?? null;
         $pets     = $request->pets == 'true' ?? null;
 
-        $units = Unit::with('details', 'rates', 'amenities')
+        $units = Unit::with('searchCriteria', 'details', 'rates', 'amenities')
                     ->with(['images' => function ($query) {
                         return $query->where('sort_order', 1);
                     }])
@@ -35,20 +35,24 @@ class UnitSearchController extends Controller
                         return $query->where('name', 'like', $name);
                    })
                    ->when($checkIn, function ($query) use ($checkIn) {
-                        return $query->whereHas('availability', function ($query) use ($checkIn){
-                            return $query->where('arrival_date', '>=', $checkIn);
+                        return $query->whereDoesntHave('availability', function ($query) use ($checkIn){
+                            return $query->where('arrival_date', '>=', $checkIn)->where('departure_date', '<=', $checkIn);
                         });
                    })
                    ->when($checkOut, function ($query) use ($checkOut) {
-                        return $query->whereHas('availability', function ($query) use ($checkOut){
-                            return $query->where('arrival_date', '<=', $checkOut);
+                        return $query->whereDoestHave('availability', function ($query) use ($checkOut){
+                            return $query->where('arrival_date', '>=', $checkOut)->where('departure_date', '<=', $checkOut);
                         });
                    })
-                   ->when($location, function ($query) use ($location){
-                       return $query->where('location', $location);
+                   ->when($location, function ($query) use ($location) {
+                        return $query->whereHas('searchCriteria', function ($query) use ($location){
+                            return $query->where('name', 'like', $location);
+                        });
                    })
-                   ->when($type, function ($query) use ($type){
-                       return $query->where('type', $type);
+                   ->when($type, function ($query) use ($type) {
+                        return $query->whereHas('searchCriteria', function ($query) use ($type){
+                            return $query->where('name', 'like', $type);
+                        });
                    })
                    ->when($pool, function ($query) {
                        return $query->whereHas('amenities', function ($query) {

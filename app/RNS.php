@@ -54,8 +54,6 @@ class RNS
             ]);
             // Our code is too fast for their API
             usleep(200000);
-            //
-            $this->addSearchCriteria($newUnit);
         }
     }
 
@@ -63,6 +61,7 @@ class RNS
     {
         $token = $this->getAccessToken();
         $units = $this->getUnitList();
+        SearchCriteria::forAllUnits();
         Image::forAllUnits();
         Amenity::forAllUnits();
         Availability::forAllUnits();
@@ -72,13 +71,6 @@ class RNS
         echo 'Check it';
     }
 
-    private function addSearchCriteria($newUnit)
-    {
-        $searchCriteria    = $this->locationAndTypeForUnit($newUnit->rns_id);
-        $newUnit->type     = $searchCriteria[1]->Name ?? null;
-        $newUnit->location = $searchCriteria[0]->Name ?? null;
-        $newUnit->save();
-    }
 
     public function amenitiesForUnit($rnsId)
     {
@@ -95,7 +87,7 @@ class RNS
         return $this->get("Units/{$rnsId}/Images?clientid={$this->clientId}");
     }
 
-    public function locationAndTypeForUnit($rnsId)
+    public function searchCriteriaForUnit($rnsId)
     {
         return $this->get("Units/{$rnsId}/SearchCriteria?clientid={$this->clientId}");
     }

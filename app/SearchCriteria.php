@@ -19,11 +19,30 @@ class SearchCriteria extends Model
         $rns = new RNS;
 
         foreach ($units as $unit) {
-            $images = $rns->imagesForUnit($unit->rns_id);
-            if ($images) {
-                self::attachToUnit($unit, $images);
+            $searchCriteria = $rns->searchCriteriaForUnit($unit->rns_id);
+            if ($searchCriteria) {
+                self::attachToUnit($unit, $searchCriteria);
             }
             usleep(250000);
+        }
+    }
+
+    public static function attachToUnit($unit, $searchCriteria)
+    {
+        foreach ($searchCriteria as $sc) {
+            SearchCriteria::updateOrCreate(
+                [
+                    'rns_unit_id' => $sc->UnitId,
+                    'name' => $sc->Name
+                ],
+                [
+                    'unit_id'     => $unit->id,
+                    'rns_unit_id' => $sc->UnitId,
+                    'rns_id'      => $sc->Id,
+                    'name'        => $sc->Name,
+                    'sort_order'  => $sc->SortOrder
+                ]
+            );
         }
     }
 }
