@@ -36,12 +36,12 @@ class UnitSearchController extends Controller
                    })
                    ->when($checkIn, function ($query) use ($checkIn) {
                         return $query->whereDoesntHave('availability', function ($query) use ($checkIn){
-                            return $query->where('arrival_date', '>=', $checkIn)->where('departure_date', '<=', $checkIn);
+                            return $query->whereDate('arrival_date', '>=', $checkIn)->orWhereDate('departure_date', '<=', $checkIn);
                         });
                    })
                    ->when($checkOut, function ($query) use ($checkOut) {
                         return $query->whereDoesntHave('availability', function ($query) use ($checkOut){
-                            return $query->where('arrival_date', '>=', $checkOut)->where('departure_date', '<=', $checkOut);
+                            return $query->whereDate('arrival_date', '>=', $checkOut)->orWhereDate('departure_date', '<=', $checkOut);
                         });
                    })
                    ->when($location, function ($query) use ($location) {
