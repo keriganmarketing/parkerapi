@@ -40,7 +40,7 @@ class UnitSearchController extends Controller
                         });
                    })
                    ->when($checkOut, function ($query) use ($checkOut) {
-                        return $query->whereDoestHave('availability', function ($query) use ($checkOut){
+                        return $query->whereDoesntHave('availability', function ($query) use ($checkOut){
                             return $query->where('arrival_date', '>=', $checkOut)->where('departure_date', '<=', $checkOut);
                         });
                    })
