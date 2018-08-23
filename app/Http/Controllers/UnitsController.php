@@ -21,11 +21,11 @@ class UnitsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Unit  $unit
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Unit $unit)
+    public function show($id)
     {
-        return $unit->with('images', 'availability', 'amenities', 'details', 'rates')->find($unit->id);
+        return Unit::with('images', 'availability', 'amenities', 'details', 'rates')->where('rns_id', $id)->first();
     }
 }

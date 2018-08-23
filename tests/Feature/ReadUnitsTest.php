@@ -25,7 +25,7 @@ class ReadUnitsTest extends TestCase
     {
         $unit = factory('App\Unit')->create();
 
-        $this->get("/units/{$unit->id}")->assertJsonFragment(['name' => $unit->name]);
+        $this->get("/units/{$unit->rns_id}")->assertJsonFragment(['name' => $unit->name]);
     }
 
     /** @test */
