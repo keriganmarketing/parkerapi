@@ -20,7 +20,7 @@ class MatchingResultsController extends Controller
         $location = $request->location ?? null;
         $type     = $request->type ?? null;
 
-        $units = Unit::with('searchCriteria', 'details', 'rates', 'amenities')
+        return Unit::with('searchCriteria', 'details', 'rates', 'amenities')
                     ->with(['images' => function ($query) {
                         return $query->where('sort_order', 1);
                     }])
