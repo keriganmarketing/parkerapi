@@ -11,13 +11,6 @@ class Unit extends Model
         'company_id', 'rns_id', 'number', 'name'
     ];
 
-    const AMENITIES = [
-        'pool' => 45,
-        'internet' => 22,
-        'screened_in_porch' => 46,
-        'pet_friendly' => 50,
-        'elevator' => 17
-    ];
 
     public function amenities()
     {
@@ -47,6 +40,11 @@ class Unit extends Model
     public function searchCriteria()
     {
         return $this->hasMany(SearchCriteria::class);
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
     }
 
     public static function searchFor(Request $request)

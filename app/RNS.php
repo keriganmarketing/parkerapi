@@ -107,6 +107,13 @@ class RNS
         return $this->get("Units/{$rnsId}/RateSummary?clientid={$this->clientId}");
     }
 
+    public function reservationsList($date)
+    {
+       $reservations = $this->get("Reservations/BookingsAndCancellations?LastUpdateDate={$date}&clientid={$this->clientId}");
+
+       dd($reservations[0]);
+    }
+
     public function detailsForUnit($rnsId)
     {
         try {
