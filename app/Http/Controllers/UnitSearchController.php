@@ -34,15 +34,15 @@ class UnitSearchController extends Controller
                    ->when($name, function ($query) use ($name) {
                         return $query->where('name', 'like', $name);
                    })
-                   ->when($checkIn, function ($query) use ($checkIn) {
-                        return $query->whereDoesntHave('availability', function ($query) use ($checkIn){
-                            return $query->whereDate('arrival_date', '>=', $checkIn)->orWhereDate('departure_date', '<=', $checkIn);
-                        });
+                   ->when($checkIn, function($query) use($checkIn, $checkOut) {
+                       return $query->whereDoesntHave('availability', function ($query) use ($checkIn, $checkOut) {
+                           return $query->whereDate('arrival_date', '>=', $checkIn)->orWhereDate('departure_date', '<=', $checkIn);
+                       });
                    })
-                   ->when($checkOut, function ($query) use ($checkOut) {
-                        return $query->whereDoesntHave('availability', function ($query) use ($checkOut){
-                            return $query->whereDate('arrival_date', '>=', $checkOut)->orWhereDate('departure_date', '<=', $checkOut);
-                        });
+                   ->when($checkOut, function($query) use($checkIn, $checkOut) {
+                       return $query->whereDoesntHave('availability', function ($query) use ($checkIn, $checkOut) {
+                           return $query->whereDate('arrival_date', '>=', $checkOut)->orWhereDate('departure_date', '<=', $checkOut);
+                       });
                    })
                    ->when($location, function ($query) use ($location) {
                         return $query->whereHas('searchCriteria', function ($query) use ($location){
