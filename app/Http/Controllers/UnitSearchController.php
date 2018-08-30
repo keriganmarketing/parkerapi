@@ -15,6 +15,7 @@ class UnitSearchController extends Controller
      */
     public function index(Request $request)
     {
+        $booked   = 'availability';
         $name     = $request->name ?? null;
         $checkIn  = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : null;
         $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null; 
@@ -31,18 +32,18 @@ class UnitSearchController extends Controller
                     ->with(['images' => function ($query) {
                         return $query->where('sort_order', 1);
                     }])
+                    ->when($checkIn, function($query) use ($checkIn, $checkOut, $booked) {
+                        return $query->whereDoesntHave($booked, function ($query) use ($checkIn, $checkOut) {
+                            return $query->whereDate('arrival_date', '<=', $checkIn)->whereDate('departure_date', '>=', $checkIn);
+                        });
+                    })
+                    ->when($checkOut, function($query) use ($checkIn, $checkOut, $booked) {
+                        return $query->whereDoesntHave($booked, function ($query) use ($checkIn, $checkOut) {
+                            return $query->whereDate('arrival_date', '>=', $checkOut)->whereDate('departure_date', '<=', $checkOut);
+                        });
+                    })
                    ->when($name, function ($query) use ($name) {
                         return $query->where('name', 'like', $name);
-                   })
-                   ->when($checkIn, function($query) use($checkIn, $checkOut) {
-                       return $query->whereDoesntHave('availability', function ($query) use ($checkIn, $checkOut) {
-                           return $query->whereDate('arrival_date', '>=', $checkIn)->orWhereDate('departure_date', '<=', $checkIn);
-                       });
-                   })
-                   ->when($checkOut, function($query) use($checkIn, $checkOut) {
-                       return $query->whereDoesntHave('availability', function ($query) use ($checkIn, $checkOut) {
-                           return $query->whereDate('arrival_date', '>=', $checkOut)->orWhereDate('departure_date', '<=', $checkOut);
-                       });
                    })
                    ->when($location, function ($query) use ($location) {
                         return $query->whereHas('searchCriteria', function ($query) use ($location){
