@@ -15,7 +15,7 @@ class UnitSearchController extends Controller
      */
     public function index(Request $request)
     {
-        $booked   = 'availability';
+        $booked   = 'availability'; //change the verbiage to reflect what it actually is
         $name     = $request->name ?? null;
         $checkIn  = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : null;
         $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null; 
