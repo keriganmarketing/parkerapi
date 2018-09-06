@@ -26,6 +26,6 @@ class UnitsController extends Controller
      */
     public function show($id)
     {
-        return Unit::with('images', 'availability', 'amenities', 'details', 'rates')->where('rns_id', $id)->first();
+        return Unit::with('images', 'availability', 'amenities', 'details', 'rates', 'searchCriteria')->where('rns_id', $id)->first();
     }
 }
