@@ -75,7 +75,7 @@ class UnitSearchController extends Controller
                            return $query->where('rns_id', 50)->where('description', '!=', 'No');
                        });
                    })
-                   ->paginate(36);
+                   ->paginate(18);
 
         $units->appends($request->all())->links();
 
