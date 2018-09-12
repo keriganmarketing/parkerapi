@@ -6,6 +6,7 @@ Route::get('/long-term-rentals', 'LongTermRentalsController@index')->name('ltr.s
 Route::get('/beachfront', 'BeachfrontController@index')->name('beachfront.show');
 Route::get('/availability', 'AvailabilityController@index')->name('availability.index');
 Route::get('/amenities', 'AmenitiesController@index')->name('amenities.index');
+Route::get('/token', 'TokenController@index')->name('token.index');
 
 Route::get('/search', 'UnitSearchController@index')->name('units.search');
 Route::get('/matches', 'MatchingResultsController@index')->name('matches');
