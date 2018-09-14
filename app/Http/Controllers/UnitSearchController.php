@@ -66,9 +66,9 @@ class UnitSearchController extends Controller
                        });
                    })
                    ->when($canal, function ($query) {
-                       return $query->whereHas('searchCriteria', function ($query) {
-                           return $query->where('rns_id', 39)->where('description', '!=', 'No');
-                       });
+                        return $query->whereHas('searchCriteria', function ($query)  {
+                            return $query->where('rns_id', 39);
+                        });
                    })
                    ->when($internet, function ($query) {
                        return $query->whereHas('amenities', function ($query) {
