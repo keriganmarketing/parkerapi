@@ -55,9 +55,19 @@ class UnitSearchController extends Controller
                             return $query->where('name', 'like', $type);
                         });
                    })
+                   ->when($dock, function ($query) {
+                       return $query->whereHas('amenities', function ($query) {
+                           return $query->where('rns_id', 47)->where('description', '!=', 'No');
+                       });
+                   })
                    ->when($pool, function ($query) {
                        return $query->whereHas('amenities', function ($query) {
                            return $query->where('rns_id', 45)->where('description', '!=', 'No');
+                       });
+                   })
+                   ->when($canal, function ($query) {
+                       return $query->whereHas('searchCriteria', function ($query) {
+                           return $query->where('rns_id', 39)->where('description', '!=', 'No');
                        });
                    })
                    ->when($internet, function ($query) {
@@ -67,7 +77,7 @@ class UnitSearchController extends Controller
                    })
                    ->when($linens, function ($query) {
                        return $query->whereHas('amenities', function ($query) {
-                           return $query->where('rns_id', 14)->where('description', '!=', 'No');
+                           return $query->where('rns_id', 48)->where('description', '!=', 'No');
                        });
                    })
                    ->when($pets, function ($query) {
