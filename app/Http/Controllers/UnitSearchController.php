@@ -18,7 +18,7 @@ class UnitSearchController extends Controller
         $booked   = 'availability'; //change the verbiage to reflect what it actually is
         $name     = $request->name ?? null;
         $checkIn  = isset($request->checkIn) && $request->checkIn !== '' ? Carbon::parse($request->checkIn) : null;
-        $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null; 
+        $checkOut = isset($request->checkOut) && $request->checkOut !== '' ? Carbon::parse($request->checkOut) : null;
         $location = $request->location ?? null;
         $type     = $request->type ?? null;
         $dock     = $request->dock == 'true' ?? null;
@@ -85,6 +85,7 @@ class UnitSearchController extends Controller
                            return $query->where('rns_id', 50)->where('description', '!=', 'No');
                        });
                    })
+                   ->orderBy('name', 'asc')
                    ->paginate(18);
 
         $units->appends($request->all())->links();
