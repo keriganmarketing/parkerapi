@@ -43,7 +43,7 @@ class UnitSearchController extends Controller
                         });
                     })
                    ->when($name, function ($query) use ($name) {
-                        return $query->where('name', 'like', $name);
+                        return $query->where('name', 'like', '%'. $name . '%');
                    })
                    ->when($location, function ($query) use ($location) {
                         return $query->whereHas('searchCriteria', function ($query) use ($location){
